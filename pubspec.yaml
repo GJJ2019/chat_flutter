@@ -15,7 +15,9 @@ dependencies:
   cupertino_icons: ^1.0.0
   firebase_auth: ^0.20.0+1
   firebase_core: ^0.7.0
+  fluentui_system_icons: ^1.1.95
   flutter_facebook_auth: ^2.0.1
+  flutter_signin_button: ^1.1.0
   get: 3.24.0
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1

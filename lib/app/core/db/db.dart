@@ -6,7 +6,16 @@ import '../constant/constant.dart';
 /// main database class for hive
 class DB {
   /// return bool value if enable or not
-  static const String webPageCache = 'Web Page Cache';
+  static const String isLogin = 'isLogin';
+
+  /// return email of the user
+  static const String email = 'email';
+
+  /// return photo url of the user
+  static const String photoUrl = 'photoUrl';
+
+  /// return uuid of particular user
+  static const String uuid = 'uuid';
 
   /// main hive [Box] box
   static Box box;
