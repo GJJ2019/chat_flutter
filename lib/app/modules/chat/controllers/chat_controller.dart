@@ -1,9 +1,9 @@
-import 'package:chat_flutter/app/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../core/db/db.dart';
+import '../../../splash_screen.dart';
 import '../data/i_chat_repository.dart';
 import '../data/model/chat_model.dart';
 

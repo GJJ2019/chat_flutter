@@ -97,9 +97,9 @@ class AuthController extends GetxController {
     _loading.value = val;
   }
 
-  void _clearTextField() {
-    emailT.clear();
-    passwordT.clear();
-    confirmPasswordT.clear();
-  }
+  // void _clearTextField() {
+  //   emailT.clear();
+  //   passwordT.clear();
+  //   confirmPasswordT.clear();
+  // }
 }

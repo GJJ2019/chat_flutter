@@ -1,5 +1,6 @@
-import 'package:chat_flutter/app/core/db/db.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../../../core/db/db.dart';
 
 class ChatModel {
   ChatModel.data(

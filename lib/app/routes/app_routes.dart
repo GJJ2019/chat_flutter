@@ -3,13 +3,11 @@ part of 'app_pages.dart';
 
 // ignore_for_file: constant_identifier_names
 abstract class Routes {
-  static const HOME = _Paths.HOME;
   static const AUTH = _Paths.AUTH;
   static const CHAT = _Paths.CHAT;
 }
 
 abstract class _Paths {
-  static const HOME = '/home';
   static const AUTH = '/auth';
   static const CHAT = '/chat';
 }

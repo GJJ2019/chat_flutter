@@ -1,9 +1,9 @@
-import 'package:chat_flutter/app/core/constant/image_constant.dart';
-import 'package:chat_flutter/app/core/db/db.dart';
-import 'package:chat_flutter/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'core/constant/image_constant.dart';
+import 'core/db/db.dart';
+import 'routes/app_pages.dart';
 import 'theme/style.dart';
 
 class SplashScreen extends StatelessWidget {
