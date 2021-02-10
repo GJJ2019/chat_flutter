@@ -1,9 +1,11 @@
-import 'package:chat_flutter/app/core/db/db.dart';
-import 'package:chat_flutter/app/modules/chat/data/model/chat_model.dart';
+import 'package:chat_flutter/app/splash_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../../core/db/db.dart';
 import '../data/i_chat_repository.dart';
+import '../data/model/chat_model.dart';
 
 class ChatController extends GetxController {
   ChatController(this._iChatRepository);
@@ -32,5 +34,11 @@ class ChatController extends GetxController {
       });
       messageT.clear();
     }
+  }
+
+  Future<void> logout() async {
+    await DB.box.clear();
+    await FirebaseAuth.instance.signOut();
+    await Get.offAll(SplashScreen());
   }
 }
