@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/auth_view.dart';
-import '../modules/chat/bindings/chat_binding.dart';
-import '../modules/chat/views/chat_view.dart';
+import '../modules/main/bindings/main_binding.dart';
+import '../modules/main/views/main_view.dart';
 
 part 'app_routes.dart';
 
@@ -18,9 +18,9 @@ class AppPages {
       binding: AuthBinding(),
     ),
     GetPage(
-      name: _Paths.CHAT,
-      page: () => ChatView(),
-      binding: ChatBinding(),
+      name: _Paths.MAIN,
+      page: () => MainView(),
+      binding: MainBinding(),
     ),
   ];
 }

@@ -30,7 +30,7 @@ class SplashScreen extends StatelessWidget {
     await Future.delayed(const Duration(seconds: 2));
     final isLogin = DB.box.get(DB.isLogin) ?? false;
     if (isLogin)
-      await Get.offAllNamed(Routes.CHAT);
+      await Get.offAllNamed(Routes.MAIN);
     else
       await Get.offAllNamed(Routes.AUTH);
   }

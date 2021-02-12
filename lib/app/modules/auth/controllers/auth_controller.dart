@@ -33,7 +33,7 @@ class AuthController extends GetxController {
       try {
         final success = await _authRepository.loginViaEmailPassword(email: email, password: password);
         if (success) {
-          await Get.offAllNamed(Routes.CHAT);
+          await Get.offAllNamed(Routes.MAIN);
         }
       } on ErrorUtils catch (e) {
         SideEffects.showSnackBar(e.errorMessage);
@@ -49,7 +49,7 @@ class AuthController extends GetxController {
     try {
       final success = await _authRepository.loginViaFacebook();
       if (success) {
-        await Get.offAllNamed(Routes.CHAT);
+        await Get.offAllNamed(Routes.MAIN);
       }
     } on ErrorUtils catch (e) {
       SideEffects.showSnackBar(e.errorMessage);
@@ -73,7 +73,7 @@ class AuthController extends GetxController {
       try {
         final success = await _authRepository.registerViaEmailPassword(email: email, password: password);
         if (success) {
-          await Get.offAllNamed(Routes.CHAT);
+          await Get.offAllNamed(Routes.MAIN);
         }
       } on ErrorUtils catch (e) {
         SideEffects.showSnackBar(e.errorMessage);
