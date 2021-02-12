@@ -8,6 +8,7 @@ import 'model/github_user_model.dart';
 
 class MainRepository extends IMainRepository {
   @override
+  // ignore: missing_return
   Future<List<GithubUserModel>> get() async {
     try {
       final res = await Get.find<Dio>().get('users?since=135');
@@ -16,10 +17,10 @@ class MainRepository extends IMainRepository {
         for (final i in res.data) list.add(GithubUserModel.fromJson(i));
         return list;
       } else {
-        return throw const ErrorUtils(errorMessage: 'Server is not reachable');
+        throw const ErrorUtils(errorMessage: 'Server is not reachable');
       }
     } on DioError catch (e) {
-      return throw _error(e);
+      _error(e);
     }
   }
 
@@ -27,27 +28,27 @@ class MainRepository extends IMainRepository {
   ErrorUtils _error(DioError e) {
     switch (e.type) {
       case DioErrorType.RESPONSE:
-        return const ErrorUtils(
+        throw const ErrorUtils(
           errorMessage: 'Something went wrong. Please try again after some time.',
         );
         break;
       case DioErrorType.RECEIVE_TIMEOUT:
       case DioErrorType.CONNECT_TIMEOUT:
-        return const ErrorUtils(
+        throw const ErrorUtils(
           errorMessage: 'Server is not reachable. Please verify your internet connection and try again',
         );
         break;
 
       case DioErrorType.DEFAULT:
         if (e.message.contains('SocketException')) {
-          return const ErrorUtils(errorMessage: 'No Internet Connection');
+          throw const ErrorUtils(errorMessage: 'No Internet Connection');
         } else {
-          return const ErrorUtils(errorMessage: 'Problem connecting to the server. Please try again.');
+          throw const ErrorUtils(errorMessage: 'Problem connecting to the server. Please try again.');
         }
         break;
 
       default:
-        return const ErrorUtils(errorMessage: 'Something went wrong');
+        throw const ErrorUtils(errorMessage: 'Something went wrong');
     }
   }
 }

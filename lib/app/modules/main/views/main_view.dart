@@ -31,6 +31,11 @@ class MainView extends GetView<MainController> {
             ),
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: controller.refreshData,
+          mini: true,
+          child: const Icon(FluentIcons.arrow_sync_24_regular),
+        ),
         body: TabBarView(
           children: [AllUserView(), SelectedUserView()],
         ),

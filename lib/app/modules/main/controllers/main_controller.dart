@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../core/db/db.dart';
 import '../../../splash_screen.dart';
 import '../../../widget/side_effect.dart';
-import '../../auth/data/auth_repository.dart';
 import '../data/i_main_repository.dart';
 import '../data/model/github_user_model.dart';
 
@@ -13,8 +11,6 @@ class MainController extends GetxController {
   MainController(this._iMainRepository);
 
   final IMainRepository _iMainRepository;
-
-  ScrollController scrollController;
 
   @override
   void onInit() {
@@ -31,10 +27,11 @@ class MainController extends GetxController {
     try {
       final data = await _iMainRepository.get();
       githubUsers.addAll(data);
-    } on ErrorUtils catch (e) {
+    } catch (e) {
       SideEffects.showSnackBar(e.errorMessage);
+    } finally {
+      _loading.value = false;
     }
-    _loading.value = false;
   }
 
   void onTap(bool val, GithubUserModel githubUserModel) {
@@ -52,5 +49,9 @@ class MainController extends GetxController {
     await DB.box.clear();
     await FirebaseAuth.instance.signOut();
     await Get.offAll(SplashScreen());
+  }
+
+  void refreshData() {
+    _getData();
   }
 }

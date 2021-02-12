@@ -13,7 +13,6 @@ class AllUserView extends StatelessWidget {
         ? const Center(child: CircularProgressIndicator())
         : ListView.builder(
             itemCount: controller.githubUsers.length,
-            controller: controller.scrollController,
             itemBuilder: (context, index) {
               return GithubUserCard(githubUserModel: controller.githubUsers[index]);
             },
