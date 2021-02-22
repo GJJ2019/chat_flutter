@@ -22,8 +22,11 @@ class AuthController extends GetxController {
     confirmPasswordT = TextEditingController();
 
     Get.find<FirebaseAuth>().authStateChanges().listen((user) async {
-      UserData.saveLocalData(user);
-      await Get.offAllNamed(Routes.CHAT);
+      print('user is $user');
+      if (user != null) {
+        UserData.saveLocalData(user);
+        await Get.offAllNamed(Routes.CHAT);
+      }
     });
 
     super.onInit();
@@ -39,10 +42,7 @@ class AuthController extends GetxController {
     } else {
       _changeLoading(true);
       try {
-        final success = await _authRepository.loginViaEmailPassword(email: email, password: password);
-        if (success) {
-          await Get.offAllNamed(Routes.CHAT);
-        }
+        await _authRepository.loginViaEmailPassword(email: email, password: password);
       } on ErrorUtils catch (e) {
         SideEffects.showSnackBar(e.errorMessage);
       } finally {
@@ -55,10 +55,7 @@ class AuthController extends GetxController {
   Future<void> loginViaFacebook() async {
     _changeLoading(true);
     try {
-      final success = await _authRepository.loginViaFacebook();
-      if (success) {
-        await Get.offAllNamed(Routes.CHAT);
-      }
+      await _authRepository.loginViaFacebook();
     } on ErrorUtils catch (e) {
       SideEffects.showSnackBar(e.errorMessage);
     } finally {
@@ -80,9 +77,7 @@ class AuthController extends GetxController {
       _changeLoading(true);
       try {
         final success = await _authRepository.registerViaEmailPassword(email: email, password: password);
-        if (success) {
-          await Get.offAllNamed(Routes.CHAT);
-        }
+        if (success) await Get.offAllNamed(Routes.CHAT);
       } on ErrorUtils catch (e) {
         SideEffects.showSnackBar(e.errorMessage);
       } finally {

@@ -1,8 +1,8 @@
+import 'package:chat_flutter/app/core/helper/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-import '../../../core/helper/user.dart';
 import 'i_auth_repository.dart';
 
 // ignore_for_file: only_throw_errors
@@ -13,12 +13,9 @@ class AuthRepository extends IAuthRepository {
   final FirebaseAuth _auth;
 
   @override
-  Future<bool> loginViaEmailPassword({@required String email, @required String password}) async {
+  Future<void> loginViaEmailPassword({@required String email, @required String password}) async {
     try {
-      final userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
-      print(userCredential);
-      UserData.saveLocalData(userCredential.user);
-      return true;
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       _errorFirebase(e);
       return false;
@@ -26,16 +23,13 @@ class AuthRepository extends IAuthRepository {
   }
 
   @override
-  Future<bool> loginViaFacebook() async {
+  Future<void> loginViaFacebook() async {
     try {
       final result = await FacebookAuth.instance.login();
 
       final facebookAuthCredential = FacebookAuthProvider.credential(result.token);
       // Once signed in, return the UserCredential
-      final userCredential = await _auth.signInWithCredential(facebookAuthCredential);
-
-      UserData.saveLocalData(userCredential.user);
-      return true;
+      await _auth.signInWithCredential(facebookAuthCredential);
     } on FirebaseAuthException catch (e) {
       _errorFirebase(e);
       return false;
@@ -54,7 +48,6 @@ class AuthRepository extends IAuthRepository {
       return true;
     } on FirebaseAuthException catch (e) {
       _errorFirebase(e);
-      return false;
     }
   }
 
