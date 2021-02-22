@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+import '../../../core/helper/user.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widget/side_effect.dart';
 import '../data/auth_repository.dart';
@@ -18,6 +20,12 @@ class AuthController extends GetxController {
     emailT = TextEditingController();
     passwordT = TextEditingController();
     confirmPasswordT = TextEditingController();
+
+    Get.find<FirebaseAuth>().authStateChanges().listen((user) async {
+      UserData.saveLocalData(user);
+      await Get.offAllNamed(Routes.CHAT);
+    });
+
     super.onInit();
   }
 
