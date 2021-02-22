@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-import '../../../core/db/db.dart';
+import '../../../core/helper/user.dart';
 import 'i_auth_repository.dart';
 
 // ignore_for_file: only_throw_errors
@@ -13,12 +13,9 @@ class AuthRepository extends IAuthRepository {
   final FirebaseAuth _auth;
 
   @override
-  Future<bool> loginViaEmailPassword({@required String email, @required String password}) async {
+  Future<void> loginViaEmailPassword({@required String email, @required String password}) async {
     try {
-      final userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
-      print(userCredential);
-      _saveAuthData(userCredential);
-      return true;
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       _errorFirebase(e);
       return false;
@@ -26,16 +23,13 @@ class AuthRepository extends IAuthRepository {
   }
 
   @override
-  Future<bool> loginViaFacebook() async {
+  Future<void> loginViaFacebook() async {
     try {
       final result = await FacebookAuth.instance.login();
 
       final facebookAuthCredential = FacebookAuthProvider.credential(result.token);
       // Once signed in, return the UserCredential
-      final userCredential = await _auth.signInWithCredential(facebookAuthCredential);
-      print(userCredential);
-      _saveAuthData(userCredential);
-      return true;
+      await _auth.signInWithCredential(facebookAuthCredential);
     } on FirebaseAuthException catch (e) {
       _errorFirebase(e);
       return false;
@@ -50,20 +44,12 @@ class AuthRepository extends IAuthRepository {
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       print(userCredential);
-      _saveAuthData(userCredential);
+      UserData.saveLocalData(userCredential.user);
       return true;
     } on FirebaseAuthException catch (e) {
       _errorFirebase(e);
       return false;
     }
-  }
-
-  void _saveAuthData(UserCredential userCredential) {
-    DB.box
-      ..put(DB.isLogin, true)
-      ..put(DB.email, userCredential.user.email)
-      ..put(DB.photoUrl, userCredential.user.photoURL)
-      ..put(DB.uuid, userCredential.user.uid);
   }
 
   void _errorFirebase(FirebaseAuthException e) {

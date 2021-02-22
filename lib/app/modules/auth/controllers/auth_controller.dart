@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+import '../../../core/helper/user.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widget/side_effect.dart';
 import '../data/auth_repository.dart';
@@ -18,6 +20,15 @@ class AuthController extends GetxController {
     emailT = TextEditingController();
     passwordT = TextEditingController();
     confirmPasswordT = TextEditingController();
+
+    Get.find<FirebaseAuth>().authStateChanges().listen((user) async {
+      print('user is $user');
+      if (user != null) {
+        UserData.saveLocalData(user);
+        await Get.offAllNamed(Routes.MAIN);
+      }
+    });
+
     super.onInit();
   }
 
@@ -31,10 +42,7 @@ class AuthController extends GetxController {
     } else {
       _changeLoading(true);
       try {
-        final success = await _authRepository.loginViaEmailPassword(email: email, password: password);
-        if (success) {
-          await Get.offAllNamed(Routes.MAIN);
-        }
+        await _authRepository.loginViaEmailPassword(email: email, password: password);
       } on ErrorUtils catch (e) {
         SideEffects.showSnackBar(e.errorMessage);
       } finally {
@@ -47,10 +55,7 @@ class AuthController extends GetxController {
   Future<void> loginViaFacebook() async {
     _changeLoading(true);
     try {
-      final success = await _authRepository.loginViaFacebook();
-      if (success) {
-        await Get.offAllNamed(Routes.MAIN);
-      }
+      await _authRepository.loginViaFacebook();
     } on ErrorUtils catch (e) {
       SideEffects.showSnackBar(e.errorMessage);
     } finally {
@@ -72,9 +77,7 @@ class AuthController extends GetxController {
       _changeLoading(true);
       try {
         final success = await _authRepository.registerViaEmailPassword(email: email, password: password);
-        if (success) {
-          await Get.offAllNamed(Routes.MAIN);
-        }
+        if (success) await Get.offAllNamed(Routes.MAIN);
       } on ErrorUtils catch (e) {
         SideEffects.showSnackBar(e.errorMessage);
       } finally {
